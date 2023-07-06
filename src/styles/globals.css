@@ -1,0 +1,13 @@
+@import "./reset.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-100;
+}
+
+.form-box {
+  @apply rounded-lg border bg-white p-6 shadow-sm;
+}
