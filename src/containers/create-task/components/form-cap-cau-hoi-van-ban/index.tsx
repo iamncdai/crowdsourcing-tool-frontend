@@ -2,6 +2,7 @@ import { Button, Form, Input, Select } from "antd";
 import React from "react";
 
 import { FormHeading } from "@/components/elements";
+import { useStores } from "@/models";
 
 export type IFormDataCapCauHoiVanBan = {
   idDuAn: number;
@@ -19,6 +20,8 @@ export const FormCapCauHoiVanBan: React.FC<IProps> = ({
   initialValues,
   onFinish,
 }) => {
+  const { commonStore } = useStores();
+
   return (
     <Form
       name="basic"
@@ -62,11 +65,7 @@ export const FormCapCauHoiVanBan: React.FC<IProps> = ({
             allowClear
             style={{ width: "100%" }}
             placeholder="Chọn người gán nhãn"
-            options={[
-              { label: "User 1", value: 1 },
-              { label: "User 2", value: 2 },
-              { label: "User 3", value: 3 },
-            ]}
+            options={commonStore.viewDsPhanCongOptions}
             size="large"
           />
         </Form.Item>

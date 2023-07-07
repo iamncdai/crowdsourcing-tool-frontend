@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { PropsWithChildren, useState } from "react";
 
+import { useInitData } from "@/hooks";
 import { useStores } from "@/models";
 
 import { Header } from "./Header";
@@ -24,6 +25,8 @@ export const LayoutBase: React.FC<IProps> = observer(
     const { authStore } = useStores();
 
     const router = useRouter();
+
+    useInitData();
 
     const handleLogoutClick: React.MouseEventHandler<HTMLAnchorElement> = (
       e
