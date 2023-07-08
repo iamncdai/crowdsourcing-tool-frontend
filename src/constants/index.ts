@@ -22,3 +22,19 @@ export const LOAI_NHAN_OPTIONS = [
   },
   { value: "Dich_May", label: "Dịch máy" },
 ];
+
+export const STATUS_MAPS = {
+  NONE: "Được phân công",
+  PENDING: "Đang thực hiện",
+  APPROVED: "Đã duyệt",
+  REJECTED: "Đã từ chối",
+  DONE: "Chờ duyệt",
+};
+
+export const STATUS_COLOR_MAPS = {
+  NONE: "#595959",
+  PENDING: "#faad14",
+  DONE: "#1677ff",
+  APPROVED: "#389e0d",
+  REJECTED: "#f5222d",
+};

@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Login | IES Web</title>
+        <title>Đăng nhập</title>
       </Head>
 
       <LoginContainer />

@@ -36,12 +36,12 @@ export type GeneralApiProblem =
   /**
    * The data we received is not in the expected format.
    */
-  | { kind: "bad-data" }
+  | { kind: "bad-data"; status: "error" | "success"; message: string }
   /**
    * The requests exceeded the maximum allowed by the application configuration
    */
   | { kind: "rate-limit" }
-  | { kind: "conflict"; errors?: { message: string }[] };
+  | { kind: "conflict" };
 
 /**
  * Attempts to get a common cause of problems from an api response.
@@ -65,6 +65,12 @@ export function getGeneralApiProblem(
       return { kind: "unknown", temporary: true };
     case "CLIENT_ERROR":
       switch (response.status) {
+        case 400:
+          return {
+            kind: "bad-data",
+            status: response.data?.status,
+            message: response.data?.message,
+          };
         case 401:
           return { kind: "unauthorized" };
         case 403:
@@ -74,7 +80,7 @@ export function getGeneralApiProblem(
         case 429:
           return { kind: "rate-limit" };
         case 409:
-          return { kind: "conflict", errors: response.data?.errors };
+          return { kind: "conflict" };
         default:
           return { kind: "rejected" };
       }

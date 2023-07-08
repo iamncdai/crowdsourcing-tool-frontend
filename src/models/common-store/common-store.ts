@@ -7,16 +7,16 @@ import { LanguageModel } from "./language-model";
 import { UserType1Model } from "./user-type1-model";
 
 export const CommonStoreModel = types
-  .model("CommonStore")
+  .model("CommonStoreModel")
   .props({
-    languages: types.optional(types.array(LanguageModel), []),
+    dsNgonNgu: types.optional(types.array(LanguageModel), []),
     dsPhanCong: types.optional(types.array(UserType1Model), []),
   })
   .extend(withEnvironment)
   .views((self) => {
     const views = {
-      get languageOptions() {
-        return self.languages.map((item) => ({
+      get viewDsNgonNguOptions() {
+        return self.dsNgonNgu.map((item) => ({
           label: item.NgonNgu,
           value: item.idNgonNgu,
         }));
@@ -34,15 +34,17 @@ export const CommonStoreModel = types
   })
   .actions((self) => {
     const actions = {
-      getLanguages: flow(function* () {
+      getDsNgonNgu: flow(function* () {
         const res: CoreTypes.RequestGetLanguageResult =
           yield self.coreApi.getLanguages();
+
+        self.dsNgonNgu.clear();
 
         if (res.kind !== "ok") {
           return null;
         }
 
-        self.languages = cast(res.result);
+        self.dsNgonNgu = cast(res.result);
 
         return res.result;
       }),
@@ -50,6 +52,8 @@ export const CommonStoreModel = types
       getDsPhanCong: flow(function* () {
         const res: CoreTypes.RequestGetDsPhanCongResult =
           yield self.coreApi.getDsPhanCong();
+
+        self.dsPhanCong.clear();
 
         if (res.kind !== "ok") {
           return null;

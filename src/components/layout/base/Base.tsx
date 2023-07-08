@@ -1,9 +1,12 @@
 import { Layout } from "antd";
+import { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
 import { observer } from "mobx-react-lite";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Nookies from "nookies";
 import React, { PropsWithChildren, useState } from "react";
 
+import { APP_CONSTANTS } from "@/constants";
 import { useInitData } from "@/hooks";
 import { useStores } from "@/models";
 
@@ -16,10 +19,19 @@ type IProps = PropsWithChildren<{
   headerTitle?: string;
   menuActiveKey?: IMenuActiveKey;
   headerRight?: JSX.Element;
+
+  breadcrumbItems?: BreadcrumbItemType[];
 }>;
 
 export const LayoutBase: React.FC<IProps> = observer(
-  ({ title, headerTitle, menuActiveKey, headerRight, children }) => {
+  ({
+    title,
+    headerTitle,
+    menuActiveKey,
+    headerRight,
+    breadcrumbItems,
+    children,
+  }) => {
     const [collapsed, setCollapsed] = useState(false);
 
     const { authStore } = useStores();
@@ -33,8 +45,15 @@ export const LayoutBase: React.FC<IProps> = observer(
     ) => {
       e.preventDefault();
 
-      authStore.logout();
-      router.replace("/login", undefined);
+      Nookies.destroy(null, APP_CONSTANTS.AUTH, {
+        path: "/",
+      });
+
+      router.replace("/login", undefined).then((success) => {
+        if (success) {
+          authStore.logout();
+        }
+      });
     };
 
     return (
@@ -58,6 +77,7 @@ export const LayoutBase: React.FC<IProps> = observer(
               user={authStore.user}
               collapsed={collapsed}
               right={headerRight}
+              breadcrumbItems={breadcrumbItems}
               onLogoutClick={handleLogoutClick}
             />
 

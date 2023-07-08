@@ -1,1 +1,1 @@
-export type IMenuActiveKey = "PROJECTS" | "TASKS";
+export type IMenuActiveKey = "HOME" | "PROJECTS" | "TASKS";

@@ -73,8 +73,11 @@ IESWebApp.getInitialProps = async (appContext: AppContext) => {
   appContext.ctx.store = rootStore;
   const appProps: AppInitialProps = await App.getInitialProps(appContext);
 
+  console.log(rootStore.authStore.user?.typeUser);
+
   redirectAuth({
     isAuth,
+    typeUser: rootStore.authStore.user?.typeUser,
     ctx: appContext?.ctx,
   });
 

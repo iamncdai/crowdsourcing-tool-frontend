@@ -2,6 +2,7 @@ import { NextPageContext } from "next";
 import Router from "next/router";
 
 import { ROUTES_NO_AUTH } from "@/constants";
+import { ETypeUser } from "@/models/auth-store";
 
 export function utilRedirectLocation(location: string, ctx?: NextPageContext) {
   if (typeof window === "undefined") {
@@ -17,11 +18,13 @@ export function utilRedirectLocation(location: string, ctx?: NextPageContext) {
 
 type ParamsRedirectAuth = {
   isAuth: boolean;
+  typeUser: number;
   ctx?: NextPageContext;
 };
 
 export function redirectAuth(params: ParamsRedirectAuth) {
-  const { ctx, isAuth } = params;
+  const { ctx, typeUser, isAuth } = params;
+  console.log("🚀 ~ file: router.ts:27 ~ redirectAuth ~ typeUser:", typeUser);
 
   const url = ctx?.pathname;
 
@@ -32,6 +35,16 @@ export function redirectAuth(params: ParamsRedirectAuth) {
   }
 
   if (isAuth && !routeAuth) {
-    return utilRedirectLocation("/", ctx);
+    const url =
+      typeUser === ETypeUser.QuanLi
+        ? "/du-an"
+        : typeUser === ETypeUser.NguoiGanNhan
+        ? "/du-lieu/ds-cong-viec"
+        : "/";
+
+    console.log("🚀 ~ file: router.ts:39 ~ redirectAuth ~ url:", url);
+
+    console.log(typeUser);
+    return utilRedirectLocation(url, ctx);
   }
 }

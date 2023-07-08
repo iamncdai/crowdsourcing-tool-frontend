@@ -1,4 +1,5 @@
-import { Dropdown } from "antd";
+import { Breadcrumb, Dropdown } from "antd";
+import { BreadcrumbItemType } from "antd/es/breadcrumb/Breadcrumb";
 import clsx from "clsx";
 import React from "react";
 
@@ -7,6 +8,7 @@ import { IUser } from "@/models/auth-store";
 
 type IProps = {
   title?: string;
+  breadcrumbItems?: BreadcrumbItemType[];
   right?: JSX.Element;
   user: IUser;
   collapsed: boolean;
@@ -15,7 +17,8 @@ type IProps = {
 };
 
 export const Header: React.FC<IProps> = ({
-  title = "Title",
+  title,
+  breadcrumbItems,
   right,
   user,
   collapsed,
@@ -34,12 +37,15 @@ export const Header: React.FC<IProps> = ({
             }
           )}
         >
-          <div className="flex flex-1 items-center space-x-2 text-xl font-semibold">
-            <span>{title}</span>
+          <div className="flex flex-1 items-center space-x-2">
+            {title && <span className="text-xl font-semibold">{title}</span>}
+
+            {Array.isArray(breadcrumbItems) && breadcrumbItems?.length > 0 && (
+              <Breadcrumb items={breadcrumbItems} />
+            )}
           </div>
 
           {right && <div>{right}</div>}
-
           <Dropdown
             menu={{
               items: [

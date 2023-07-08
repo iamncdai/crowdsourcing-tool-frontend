@@ -6,13 +6,13 @@ export const useInitData = () => {
   const { commonStore } = useStores();
 
   useEffect(() => {
-    console.log("useInitData");
-
-    if (!commonStore.languages.length) {
-      commonStore.getLanguages();
+    if (!commonStore.dsNgonNgu.length) {
+      console.log("getDsNgonNgu");
+      commonStore.getDsNgonNgu();
     }
 
     if (!commonStore.dsPhanCong.length) {
+      console.log("getDsPhanCong");
       commonStore.getDsPhanCong();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
